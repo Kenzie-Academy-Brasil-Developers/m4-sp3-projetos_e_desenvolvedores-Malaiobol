@@ -62,9 +62,35 @@ const ensureProjectDevExists = async (req: Request, resp: Response, next: NextFu
         })
     };
     return next();
-} 
+};
+
+const ensureProjectExists = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
+    const projectId: number = +req.params.id;
+    const queryString: string = 
+    `
+        SELECT
+            "projectId"
+        FROM
+            projects
+        WHERE
+            "projectId" = $1
+        ;
+    `;
+    const queryConfig: QueryConfig = {
+        text: queryString,
+        values: [projectId]
+    };
+    const queryResult: ProjectResult = await client.query(queryConfig);
+    if(queryResult.rowCount !== 1){
+        return resp.status(404).json({
+            message: "Project not found"
+        })
+    };
+    return next();
+};
 
 export {
     projectFilter,
-    ensureProjectDevExists
+    ensureProjectDevExists,
+    ensureProjectExists
 }
