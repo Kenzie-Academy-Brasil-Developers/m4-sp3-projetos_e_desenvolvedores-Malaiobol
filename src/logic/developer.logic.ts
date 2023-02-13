@@ -1,12 +1,13 @@
 import format from "pg-format";
 import { Request, Response } from "express";
 import { client } from "../database";
-import { DeveloperInfoResult, IdevInfoRequest } from "../interfaces/developers.interfaces";
 import { QueryConfig } from "pg";
 import { 
     DeveloperResult, 
-    IdeveloperRequest, 
-} from "../interfaces";
+    IdeveloperRequest,  
+    DeveloperInfoResult, 
+    IdevInfoRequest 
+}   from "../interfaces";
 
 const createDev = async (req: Request, resp: Response): Promise<Response> =>{
     const devData: IdeveloperRequest = req.body;

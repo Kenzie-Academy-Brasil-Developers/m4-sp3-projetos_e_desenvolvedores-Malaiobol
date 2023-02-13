@@ -28,7 +28,9 @@ import{
     viewProject,
     viewAllProjects,
     updateProject,
-    deleteProject
+    deleteProject,
+    assignTech,
+    deleteTech
 } from "./logic";
 
 const app: Application = express();
@@ -48,8 +50,8 @@ app.get("/projects/:id", ensureProjectExists, viewProject);
 app.patch("/projects/:id", ensureProjectExists, ensureProjectDevExists, projectFilter, updateProject);
 app.delete("/projects/:id", ensureProjectExists, deleteProject);
 
-app.post("/projects/:id/technologies",  assignTechFilter, assignTech);
-app.delete("/projects/:id/technologies/:name", deleteTech);
+app.post("/projects/:id/technologies",  ensureProjectExists, assignTechFilter, assignTech);
+app.delete("/projects/:id/technologies/:name", ensureProjectExists, deleteTech);
 
 const PORT: number = 3000;
 const runningMsg: string = `Server is running on ${PORT}!`;

@@ -14,7 +14,12 @@ import {
     viewAllProjects,
     updateProject,
     deleteProject
-}from "./projects.logic";
+}   from "./projects.logic";
+
+import {
+    assignTech,
+    deleteTech
+}   from "./technology.logic";
 
 export {
     createDev,
@@ -29,5 +34,8 @@ export {
     viewProject,
     viewAllProjects,
     updateProject,
-    deleteProject
+    deleteProject,
+
+    assignTech,
+    deleteTech
 }

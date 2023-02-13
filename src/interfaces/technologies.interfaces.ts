@@ -25,5 +25,7 @@ type TechProjectResult = QueryResult<ItechProject>;
 
 export {
     TechResult,
-    TechProjectResult
+    ItechProjectReq,
+    TechProjectResult,
+    ItechReq
 }

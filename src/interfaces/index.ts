@@ -1,19 +1,21 @@
 import { 
     ProjectResult, 
     IprojectRequest
-} from "./projects.interfaces";
+}   from "./projects.interfaces";
 
 import {
     DeveloperResult,
     IdeveloperRequest,
     IdevInfoRequest,
     DeveloperInfoResult
-} from "./developers.interfaces";
+}   from "./developers.interfaces";
 
 import {
     TechProjectResult,
-    TechResult
-} from "./technologies.interfaces";
+    TechResult,
+    ItechProjectReq,
+    ItechReq
+}   from "./technologies.interfaces";
  
 export { 
     IprojectRequest,
@@ -23,5 +25,7 @@ export {
     TechResult,
     IdeveloperRequest,
     IdevInfoRequest,
-    DeveloperInfoResult
+    DeveloperInfoResult,
+    ItechProjectReq,
+    ItechReq
 };
