@@ -1,5 +1,6 @@
 import { 
     ProjectResult, 
+    IprojectRequest
 } from "./projects.interfaces";
 
 import {
@@ -15,9 +16,12 @@ import {
 } from "./technologies.interfaces";
  
 export { 
+    IprojectRequest,
     ProjectResult,
     DeveloperResult,
     TechProjectResult,
     TechResult,
-    IdeveloperRequest
+    IdeveloperRequest,
+    IdevInfoRequest,
+    DeveloperInfoResult
 };

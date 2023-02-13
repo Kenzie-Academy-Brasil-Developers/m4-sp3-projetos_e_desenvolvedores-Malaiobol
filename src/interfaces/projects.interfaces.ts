@@ -17,5 +17,6 @@ interface Iproject extends IprojectRequest{
 type ProjectResult = QueryResult<Iproject>;
 
 export { 
-    ProjectResult, 
+    IprojectRequest,
+    ProjectResult 
 }

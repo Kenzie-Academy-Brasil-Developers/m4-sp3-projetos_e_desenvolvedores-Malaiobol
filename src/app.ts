@@ -22,7 +22,13 @@ import{
     viewDev,
     updateDev,
     updateDevInfo,
-    deleteDev
+    deleteDev,
+
+    createProject,
+    viewProject,
+    viewAllProjects,
+    updateProject,
+    deleteProject
 } from "./logic";
 
 const app: Application = express();
@@ -37,8 +43,8 @@ app.patch("/developers/:id/infos", patchDevInfoFilter, updateDevInfo);
 app.delete("/developers/:id", ensureDevExists, deleteDev);
 
 app.post("/projects", ensureProjectDevExists, projectFilter, createProject);
-app.get("/projects", getAllProjects); 
-app.get("/projects/:id", ensureProjectExists, getSpecificProject);
+app.get("/projects", viewAllProjects); 
+app.get("/projects/:id", ensureProjectExists, viewProject);
 app.patch("/projects/:id", ensureProjectExists, ensureProjectDevExists, projectFilter, updateProject);
 app.delete("/projects/:id", ensureProjectExists, deleteProject);
 
