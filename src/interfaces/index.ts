@@ -3,10 +3,21 @@ import {
 } from "./projects.interfaces";
 
 import {
-    DeveloperResult
-} from "./developers.interfaces"
+    DeveloperResult,
+    IdeveloperRequest,
+    IdevInfoRequest,
+    DeveloperInfoResult
+} from "./developers.interfaces";
 
+import {
+    TechProjectResult,
+    TechResult
+} from "./technologies.interfaces";
+ 
 export { 
     ProjectResult,
-    DeveloperResult
-}
+    DeveloperResult,
+    TechProjectResult,
+    TechResult,
+    IdeveloperRequest
+};

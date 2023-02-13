@@ -15,14 +15,23 @@ import {
     assignTechFilter
 } from "./middlewares";
 
+import{
+    createDev,
+    createDevInfo,
+    viewAllDevs,
+    viewDev,
+    updateDev,
+    updateDevInfo,
+    deleteDev
+} from "./logic";
 
 const app: Application = express();
 app.use(express.json());
 
 app.post("/developers", validateDevReq, validateEmailReq, createDev);
 app.post("/developers/:id/infos", ensureDevExists, validateDevInfoDevReq, createDevInfo);
-app.get("/developers", getAllDevs);
-app.get("/developers/:id", ensureDevExists, getSpecificDev);
+app.get("/developers", viewAllDevs);
+app.get("/developers/:id", ensureDevExists, viewDev);
 app.patch("/developers/:id", ensureDevExists, patchDevFilter, updateDev);
 app.patch("/developers/:id/infos", patchDevInfoFilter, updateDevInfo);
 app.delete("/developers/:id", ensureDevExists, deleteDev);

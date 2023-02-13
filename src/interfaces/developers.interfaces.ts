@@ -12,6 +12,20 @@ interface Ideveloper extends IdeveloperRequest{
 
 type DeveloperResult = QueryResult<Ideveloper>;
 
+interface IdevInfoRequest{
+    devInfoDevSince: Date,
+    devInfoPreferredOS: string
+};
+
+interface IdevInfo extends IdevInfoRequest{
+    devInfoId: number
+};
+
+type DeveloperInfoResult = QueryResult<IdevInfo>;
+
 export { 
     DeveloperResult, 
+    IdeveloperRequest,
+    IdevInfoRequest,
+    DeveloperInfoResult
 }
