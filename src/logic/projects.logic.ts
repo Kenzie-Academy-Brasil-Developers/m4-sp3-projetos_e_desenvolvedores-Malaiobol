@@ -34,9 +34,9 @@ const viewProject = async (req: Request, resp: Response): Promise<Response> =>{
         FROM
             projects pr
         LEFT JOIN
-            technologies_projects tp ON tp."projectID" = pr."projectId"
+            technologies_projects tp ON tp."projectId" = pr."id"
         WHERE
-            "projectId" = $1
+            "id" = $1
         ;
     `;
     const queryConfig: QueryConfig = {
@@ -55,7 +55,7 @@ const viewAllProjects = async (req: Request, resp: Response): Promise<Response> 
         FROM
             projects pr
         LEFT JOIN
-            technologies_projects tp ON tp."projectID" = pr."projectId"
+            technologies_projects tp ON tp."projectId" = pr."id"
         ;
     `;
     const queryConfig: QueryConfig = {
@@ -74,7 +74,7 @@ const updateProject = async (req: Request, resp: Response): Promise<Response> =>
             projects
         SET(%I) = ROW(%L)
         WHERE
-            "projectId" = $1
+            "id" = $1
         RETURNING *;
     `,
         updateKeys,
@@ -95,7 +95,7 @@ const deleteProject = async (req: Request, resp: Response): Promise<Response> =>
         DELETE FROM
             projects
         WHERE
-            "projectId" = $1
+            "id" = $1
         ;
     `;   
     const queryConfig: QueryConfig = {

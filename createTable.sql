@@ -4,8 +4,8 @@ CREATE TYPE IF NOT EXISTS OS AS ENUM ('Windows', 'MacOS', 'Linux');
 
 CREATE TABLE IF NOT EXISTS developers_infos(
     "id" BIGSERIAL PRIMARY KEY,
-    "DevSince" DATE NOT NULL,
-    "PreferredOS" OS NOT NULL
+    "devSince" DATE NOT NULL,
+    "preferredOS" OS NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS developers(

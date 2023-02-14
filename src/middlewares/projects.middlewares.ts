@@ -9,12 +9,12 @@ import { ProjectResult } from "../interfaces";
 
 const projectFilter = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
     const validatedKeys =  [ 
-        "projectName", 
-        "projectDescription", 
-        "projectEstimatedTime", 
-        "projectRepository",
-        "projectStartDate", 
-        "projectDevId"            
+        "name", 
+        "description", 
+        "estimatedTime", 
+        "repository",
+        "startDate", 
+        "developerId"            
     ];
     const actualReq: any = req.body;
     Object.keys(actualReq).forEach(key => {
@@ -27,12 +27,12 @@ const projectFilter = async (req: Request, resp: Response, next: NextFunction): 
         return resp.status(400).json({
             message: "Please verify your keys",
             keys: [
-                "projectName", 
-                "projectDescription", 
-                "projectEstimatedTime", 
-                "projectRepository",
-                "projectStartDate", 
-                "projectDevId"  
+                "name", 
+                "description", 
+                "estimatedTime", 
+                "repository",
+                "startDate", 
+                "developerId"   
             ]
         })
     };
@@ -44,11 +44,11 @@ const ensureProjectDevExists = async (req: Request, resp: Response, next: NextFu
     const queryString: string = 
     `
         SELECT
-            "devId"
+            "id"
         FROM
             developers
         WHERE
-            "devId" = $1
+            "id" = $1
         ;
     `;
     const queryConfig: QueryConfig = {
@@ -69,11 +69,11 @@ const ensureProjectExists = async (req: Request, resp: Response, next: NextFunct
     const queryString: string = 
     `
         SELECT
-            "projectId"
+            "id"
         FROM
             projects
         WHERE
-            "projectId" = $1
+            "id" = $1
         ;
     `;
     const queryConfig: QueryConfig = {

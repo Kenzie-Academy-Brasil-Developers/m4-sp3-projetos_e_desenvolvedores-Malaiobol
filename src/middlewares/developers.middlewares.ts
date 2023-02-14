@@ -8,7 +8,7 @@ import {
 } from "express";
 
 const validateDevReq = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
-    const requiredKeys = [ "devName", "devEmail"];
+    const requiredKeys = [ "name", "email"];
     const actualKeys = Object.keys(req.body);
     let validate = actualKeys.every(key => requiredKeys.includes(key));
     if(!validate){
@@ -23,16 +23,16 @@ const validateEmailReq = async (req: Request, resp: Response, next: NextFunction
     const queryString: string = 
     `
         SELECT
-            "devEmail"
+            "email"
         FROM
             developers
         WHERE
-            "devEmail" = $1
+            "email" = $1
         ;
     `;
     const queryConfig: QueryConfig = {
         text: queryString,
-        values: [req.body.devEmail]
+        values: [req.body.email]
     };
     const queryResult: DeveloperResult = await client.query(queryConfig);
     if(queryResult.rowCount !== 0){
@@ -52,7 +52,7 @@ const ensureDevExists = async (req: Request, resp: Response, next: NextFunction)
         FROM
             developers
         WHERE
-            "devId" = $1
+            "id" = $1
         ;
     `;
     const queryConfig: QueryConfig = {
@@ -69,9 +69,9 @@ const ensureDevExists = async (req: Request, resp: Response, next: NextFunction)
 };
 
 const validateDevInfoDevReq = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
-    const requiredKeys = [ "devInfoDevSince", "devInfoPreferredOS" ];
+    const requiredKeys = [ "devSince", "preferredOS" ];
     const actualKeys = Object.keys(req.body);
-    const actualEnumValue: string = req.body.devInfoPreferredOS;
+    const actualEnumValue: string = req.body.preferredOS;
     let validate = actualKeys.every(key => requiredKeys.includes(key));
 
     if(actualEnumValue !== "Windows" && actualEnumValue !== "Linux" && actualEnumValue !== "MacOS"){
@@ -82,14 +82,14 @@ const validateDevInfoDevReq = async (req: Request, resp: Response, next: NextFun
     if(!validate){
         return resp.status(400).json({
             message: "Verify your request, required keys are:",
-            keys: ["devInfoDevSince", "devInfoPreferredOS"]
+            keys: ["devSince", "preferredOS"]
         })
     };
     return next();
 };
 
 const patchDevFilter =  async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
-    const validatedKeys = [ "devName", "devEmail" ];
+    const validatedKeys = [ "name", "email" ];
     const actualReq: any = req.body;
     Object.keys(actualReq).forEach(key => {
         if(!validatedKeys.includes(key)) {
@@ -100,14 +100,14 @@ const patchDevFilter =  async (req: Request, resp: Response, next: NextFunction)
     if(!validate){
         return resp.status(400).json({
             message: "At least one of those keys must be send:",
-            keys: [ "devName","", "devEmail" ]
+            keys: [ "name","", "email" ]
         })
     };
     next();
 };
 
 const patchDevInfoFilter =  async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
-    const validatedKeys = [ "devInfoDevSince", "devInfoPreferredOS" ];
+    const validatedKeys = [ "devSince", "preferredOS" ];
     const actualReq: any = req.body;
     Object.keys(actualReq).forEach(key => {
         if(!validatedKeys.includes(key)) {
@@ -118,7 +118,7 @@ const patchDevInfoFilter =  async (req: Request, resp: Response, next: NextFunct
     if(!validate){
         return resp.status(400).json({
             message: "At least one of those keys must be send.",
-            keys: [ "devInfoDevSince", "", "devInfoPreferredOS" ]
+            keys: [ "devSince", "", "preferredOS" ]
         })
     };
     next();

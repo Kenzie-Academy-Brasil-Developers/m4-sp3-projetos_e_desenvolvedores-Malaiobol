@@ -1,24 +1,23 @@
 import { QueryResult } from "pg";
 
 interface ItechReq{
-    techName: string
+    name: string
 };
 
 interface Itech extends ItechReq{
-    techId: number
+    id: number
 };
 
 type TechResult = QueryResult<Itech>;
 
 interface ItechProjectReq{
-    projectTechName: string,
     addedIn: Date,
-    projectID: number,
-    techID: number
+    projectId: number,
+    techtechnologyId: number
 };
 
 interface ItechProject extends ItechProjectReq{
-    projectTechId: number
+    id: number
 };
 
 type TechProjectResult = QueryResult<ItechProject>;
