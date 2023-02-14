@@ -1,17 +1,17 @@
 import { QueryResult } from "pg";
 
 interface IprojectRequest {
-    projectName: string,
-    projectDescription: string,
-    projectEstimatedTime: string,
-    projectRepository: string,
-    projectStartDate: Date,
-    projectEndDate: Date,
-    projectDevId: number | null
+    name: string,
+    description: string,
+    estimatedTime: string,
+    repository: string,
+    startDate: Date,
+    endDate: Date,
+    developerId: number | null
 };
 
 interface Iproject extends IprojectRequest{
-    projectId: number,
+    id: number,
 };
 
 type ProjectResult = QueryResult<Iproject>;

@@ -46,17 +46,15 @@ const createDevInfo = async (req: Request, resp: Response): Promise<Response> =>
         UPDATE
             developers
         SET
-            "devInfoId" = $1
+            "developerInfoId" = $1
         WHERE
-            "devId" = $2
-        RETURNING 
-            *
-        ;
+            "id" = $2
+        RETURNING *;
     `;
 
     const queryConfig: QueryConfig = {
         text: queryString,
-        values: [queryResult.rows[0].devInfoId, devId]
+        values: [queryResult.rows[0].id, devId]
     };
     await client.query(queryConfig);
     return resp.status(201).json(queryResult.rows[0]);
@@ -70,7 +68,7 @@ const viewAllDevs = async (req: Request, resp: Response): Promise<Response> => {
         FROM
             developers
         LEFT JOIN
-            developers_infos ON developers_infos."devInfoId" = developers."devId"
+            developers_infos ON developers_infos."id" = developers."developerInfoId"
         ;
     `;
     const queryConfig: QueryConfig = {
@@ -89,9 +87,9 @@ const viewDev = async (req: Request, resp: Response): Promise<Response> =>{
         FROM
             developers
         LEFT JOIN
-            developers_infos ON developers_infos."devInfoId" = developers."devId"
+            developers_infos ON developers_infos."id" = developers."developerInfoId"
         WHERE
-            developers."devId" = $1
+            developers."id" = $1
         ;
     `
 
@@ -113,7 +111,7 @@ const updateDev = async (req: Request, resp: Response): Promise<Response> =>{
             developers
         SET(%I) = ROW(%L)
         WHERE
-            "devId" = $1
+            "id" = $1
         RETURNING *;
     `,
         updateKeys,
@@ -141,7 +139,7 @@ const updateDevInfo = async (req: Request, resp: Response): Promise <Response> =
             SET
                 (%I) = ROW(%L)
             WHERE
-                "devId" = $1
+                "id" = $1
             RETURNING 
                 *
             ;
@@ -166,7 +164,7 @@ const deleteDev = async (req: Request, resp: Response): Promise<Response> =>{
         DELETE FROM
             developers_infos
         WHERE
-            "devInfoId" = $1
+            "id" = $1
         ;
     `;   
     const queryConfig: QueryConfig = {

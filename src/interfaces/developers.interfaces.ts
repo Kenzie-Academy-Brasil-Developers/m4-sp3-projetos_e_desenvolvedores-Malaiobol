@@ -1,9 +1,9 @@
 import { QueryResult } from "pg";
 
 interface IdeveloperRequest{
-    devName: string,
-    devEmail: string,
-    devInfoId: number | null,
+    name: string,
+    email: string,
+    developerInfoId: number | null,
 };
 
 interface Ideveloper extends IdeveloperRequest{
@@ -13,12 +13,12 @@ interface Ideveloper extends IdeveloperRequest{
 type DeveloperResult = QueryResult<Ideveloper>;
 
 interface IdevInfoRequest{
-    devInfoDevSince: Date,
-    devInfoPreferredOS: string
+    devSince: Date,
+    preferredOS: string
 };
 
 interface IdevInfo extends IdevInfoRequest{
-    devInfoId: number
+    id: number
 };
 
 type DeveloperInfoResult = QueryResult<IdevInfo>;
