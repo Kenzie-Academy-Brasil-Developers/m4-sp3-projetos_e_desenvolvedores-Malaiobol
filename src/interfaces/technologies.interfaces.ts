@@ -13,7 +13,8 @@ type TechResult = QueryResult<Itech>;
 interface ItechProjectReq{
     addedIn: Date,
     projectId: number,
-    techtechnologyId: number
+    technologyId: number,
+    technologyName: string | void
 };
 
 interface ItechProject extends ItechProjectReq{

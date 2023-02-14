@@ -13,7 +13,7 @@ const createProject = async (req: Request, resp: Response): Promise<Response> =>
     const queryString = format(
         `
             INSERT INTO
-                projects (%I)
+                projects(%I)
             VALUES (%L)
             RETURNING *;
         `,
@@ -36,7 +36,7 @@ const viewProject = async (req: Request, resp: Response): Promise<Response> =>{
         LEFT JOIN
             technologies_projects tp ON tp."projectId" = pr."id"
         WHERE
-            "id" = $1
+            pr."id" = $1
         ;
     `;
     const queryConfig: QueryConfig = {

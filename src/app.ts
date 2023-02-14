@@ -50,7 +50,7 @@ app.get("/projects/:id", ensureProjectExists, viewProject);
 app.patch("/projects/:id", ensureProjectExists, ensureProjectDevExists, projectFilter, updateProject);
 app.delete("/projects/:id", ensureProjectExists, deleteProject);
 
-app.post("/projects/:id/technologies",  ensureProjectExists, assignTechFilter, assignTech);
+app.post("/projects/:id/technologies",  ensureDevExists, assignTechFilter, assignTech);
 app.delete("/projects/:id/technologies/:name", ensureProjectExists, deleteTech);
 
 const PORT: number = 3000;

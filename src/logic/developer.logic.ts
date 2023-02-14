@@ -49,9 +49,7 @@ const createDevInfo = async (req: Request, resp: Response): Promise<Response> =>
             "developerInfoId" = $1
         WHERE
             "id" = $2
-        RETURNING 
-            *
-        ;
+        RETURNING *;
     `;
 
     const queryConfig: QueryConfig = {
@@ -141,7 +139,7 @@ const updateDevInfo = async (req: Request, resp: Response): Promise <Response> =
             SET
                 (%I) = ROW(%L)
             WHERE
-                "developerInfoId" = $1
+                "id" = $1
             RETURNING 
                 *
             ;

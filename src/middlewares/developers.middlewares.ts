@@ -100,7 +100,7 @@ const patchDevFilter =  async (req: Request, resp: Response, next: NextFunction)
     if(!validate){
         return resp.status(400).json({
             message: "At least one of those keys must be send:",
-            keys: [ "name","", "email" ]
+            keys: [ "name", "email" ]
         })
     };
     next();

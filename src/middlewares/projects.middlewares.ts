@@ -40,7 +40,7 @@ const projectFilter = async (req: Request, resp: Response, next: NextFunction): 
 };
 
 const ensureProjectDevExists = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
-    const projectDevId: number = req.body.projectDevId;
+    const projectDevId: number = req.body.developerId;
     const queryString: string = 
     `
         SELECT
@@ -51,11 +51,13 @@ const ensureProjectDevExists = async (req: Request, resp: Response, next: NextFu
             "id" = $1
         ;
     `;
+    
     const queryConfig: QueryConfig = {
         text: queryString,
         values: [projectDevId]
     };
     const queryResult: ProjectResult = await client.query(queryConfig);
+    console.log(queryResult);
     if(queryResult.rowCount !== 1){
         return resp.status(404).json({
             message: "Dev not found"
