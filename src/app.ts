@@ -40,8 +40,8 @@ app.post("/developers", validateDevReq, validateEmailReq, createDev);
 app.post("/developers/:id/infos", ensureDevExists, validateDevInfoDevReq, createDevInfo);
 app.get("/developers", viewAllDevs);
 app.get("/developers/:id", ensureDevExists, viewDev);
-app.patch("/developers/:id", ensureDevExists, patchDevFilter, updateDev);
-app.patch("/developers/:id/infos", patchDevInfoFilter, updateDevInfo);
+app.patch("/developers/:id", ensureDevExists, patchDevFilter, validateEmailReq, updateDev);
+app.patch("/developers/:id/infos", ensureDevExists, patchDevInfoFilter, updateDevInfo);
 app.delete("/developers/:id", ensureDevExists, deleteDev);
 
 app.post("/projects", ensureProjectDevExists, projectFilter, createProject);

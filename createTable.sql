@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS developers_data;
+CREATE DATABASE developers_data;
 
-CREATE TYPE IF NOT EXISTS OS AS ENUM ('Windows', 'MacOS', 'Linux');
+CREATE TYPE OS AS ENUM ('Windows', 'MacOS', 'Linux');
 
 CREATE TABLE IF NOT EXISTS developers_infos(
     "id" BIGSERIAL PRIMARY KEY,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS developers_infos(
 CREATE TABLE IF NOT EXISTS developers(
 	"id" BIGSERIAL PRIMARY KEY,
 	"name" VARCHAR(50) NOT NULL,
-	"email" VARCHAR(50) NOT NULL,
+	"email" VARCHAR(50) UNIQUE NOT NULL,
 	"developerInfoId" INTEGER UNIQUE,
     FOREIGN KEY("developerInfoId") REFERENCES developers_infos("id") ON DELETE CASCADE
 );
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS developers(
 CREATE TABLE IF NOT EXISTS projects(
     "id" BIGSERIAL PRIMARY KEY,
     "name" VARCHAR(50) NOT NULL,
-    "description" VARCHAR NOT NULL,
+    "description" TEXT NOT NULL,
     "estimatedTime" VARCHAR(20) NOT NULL,
     "repository" VARCHAR(120) NOT NULL,
     "startDate" DATE NOT NULL,

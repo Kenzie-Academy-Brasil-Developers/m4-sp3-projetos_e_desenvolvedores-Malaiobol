@@ -57,7 +57,6 @@ const ensureProjectDevExists = async (req: Request, resp: Response, next: NextFu
         values: [projectDevId]
     };
     const queryResult: ProjectResult = await client.query(queryConfig);
-    console.log(queryResult);
     if(queryResult.rowCount !== 1){
         return resp.status(404).json({
             message: "Dev not found"
