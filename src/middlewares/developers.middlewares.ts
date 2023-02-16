@@ -8,14 +8,23 @@ import {
 } from "express";
 
 const validateDevReq = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
-    const requiredKeys = [ "name", "email"];
-    const actualKeys = Object.keys(req.body);
-    let validate = actualKeys.every(key => requiredKeys.includes(key));
-    if(!validate){
+    const requiredKeys = ["name", "email"];
+    const actualReq: any = req.body;
+    Object.keys(actualReq).forEach(key => {
+        if(!requiredKeys.includes(key)) {
+            delete actualReq[key]
+        }
+    });
+    if(!req.body.email){
         return resp.status(400).json({
-            message: "Verify your request."
+            message: "Missing required keys: email",
         })
-    };
+    }; 
+    if(!req.body.name){
+        return resp.status(400).json({
+            message: "Missing required keys: name",
+        })
+    }; 
     return next();
 };
 
@@ -70,19 +79,23 @@ const ensureDevExists = async (req: Request, resp: Response, next: NextFunction)
 
 const validateDevInfoDevReq = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
     const requiredKeys = [ "devSince", "preferredOS" ];
-    const actualKeys = Object.keys(req.body);
+    const actualReq: any = req.body;
+    Object.keys(actualReq).forEach(key => {
+        if(!requiredKeys.includes(key)) {
+            delete actualReq[key]
+        }
+    });
     const actualEnumValue: string = req.body.preferredOS;
-    let validate = actualKeys.every(key => requiredKeys.includes(key));
-
-    if(actualEnumValue !== "Windows" && actualEnumValue !== "Linux" && actualEnumValue !== "MacOS"){
-        return resp.status(400).json({
-            message: "Please verify your Enum request."
-        })
-    };
-    if(!validate){
+    if(!actualReq.devSince || !actualReq.preferredOS){
         return resp.status(400).json({
             message: "Verify your request, required keys are:",
             keys: ["devSince", "preferredOS"]
+        })
+    };
+    if(actualEnumValue !== "Windows" && actualEnumValue !== "Linux" && actualEnumValue !== "MacOS"){
+        return resp.status(400).json({
+            message: "Please verify your OS request, accepted sistems are:",
+            systems: "Windows, Linux, MacOS"
         })
     };
     return next();
@@ -114,6 +127,13 @@ const patchDevInfoFilter =  async (req: Request, resp: Response, next: NextFunct
             delete actualReq[key]
         }
     });
+    const actualEnumValue: string = req.body.preferredOS;
+    if(actualEnumValue !== "Windows" && actualEnumValue !== "Linux" && actualEnumValue !== "MacOS"){
+        return resp.status(400).json({
+            message: "Please verify your OS request, accepted sistems are:",
+            systems: "Windows, Linux, MacOS"
+        })
+    };
     let validate = Object.keys(actualReq).some(key => validatedKeys.includes(key));
     if(!validate){
         return resp.status(400).json({

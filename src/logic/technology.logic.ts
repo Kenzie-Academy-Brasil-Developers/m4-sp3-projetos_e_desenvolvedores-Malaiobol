@@ -79,7 +79,7 @@ const deleteTech = async (req: Request, resp: Response): Promise<Response> =>{
     };
 
     const queryResult: QueryResult = await client.query(queryConfig);
-    return resp.status(204);
+    return resp.status(204).json({});
 };
 
 export {
