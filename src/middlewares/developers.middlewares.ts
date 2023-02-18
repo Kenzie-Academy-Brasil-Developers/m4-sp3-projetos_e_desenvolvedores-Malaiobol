@@ -71,11 +71,37 @@ const ensureDevExists = async (req: Request, resp: Response, next: NextFunction)
     const queryResult: DeveloperResult = await client.query(queryConfig);
     if(!queryResult.rowCount){
         return resp.status(404).json({
-            message: "Dev not Found"
+            message: "Developer not found."
         })
     };
     return next();
 };
+
+const ensureDevInfoIdNotExists = async (req: Request, resp: Response, next: NextFunction): Promise <Response | void> =>{
+    const devId: number = +req.params.id;
+    const queryString = 
+    `
+        SELECT
+            *
+        FROM
+            developers_infos
+        WHERE
+            "id" = $1
+        ;
+    `;
+    const queryConfig: QueryConfig = {
+        text: queryString,
+        values: [devId]
+    };
+
+    const queryResult: DeveloperResult = await client.query(queryConfig);
+    if(queryResult.rowCount !== 0){
+        return resp.status(404).json({
+            message: "Deveveloper infos already exists."
+        })
+    };
+    return next();
+}
 
 const validateDevInfoDevReq = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
     const requiredKeys = [ "devSince", "preferredOS" ];
@@ -150,5 +176,6 @@ export{
     ensureDevExists,
     validateDevInfoDevReq,
     patchDevFilter,
-    patchDevInfoFilter
+    patchDevInfoFilter,
+    ensureDevInfoIdNotExists
 }   

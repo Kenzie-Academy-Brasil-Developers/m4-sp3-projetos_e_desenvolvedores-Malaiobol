@@ -1,7 +1,9 @@
 import {
     projectFilter,
     ensureProjectDevExists,
-    ensureProjectExists
+    ensureProjectExists,
+    validateProjectReq,
+    validateProjectPatch
 } from "./projects.middlewares";
 
 import {
@@ -10,17 +12,21 @@ import {
     ensureDevExists,
     validateDevInfoDevReq,
     patchDevFilter,
-    patchDevInfoFilter
+    patchDevInfoFilter,
+    ensureDevInfoIdNotExists
 } from "./developers.middlewares";
 
 import {
-    assignTechFilter
+    assignTechFilter,
+    ensureTechExists
 } from "./technologies.middlewares";
 
 export {
     projectFilter,
     ensureProjectDevExists,
     ensureProjectExists,
+    validateProjectReq,
+    validateProjectPatch,
 
     validateDevReq,
     validateEmailReq,
@@ -28,6 +34,8 @@ export {
     validateDevInfoDevReq,
     patchDevFilter,
     patchDevInfoFilter,
+    ensureDevInfoIdNotExists,
 
-    assignTechFilter
+    assignTechFilter,
+    ensureTechExists
 }
