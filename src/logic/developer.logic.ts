@@ -64,11 +64,16 @@ const viewAllDevs = async (req: Request, resp: Response): Promise<Response> => {
     const queryString: string =
     `
         SELECT
-            *
-        FROM
-            developers
+            de."id" AS "developerId",
+            de."name" AS "developerName",
+            de."email" AS "developerEmail",
+            de."developerInfoId",
+            di."devSince" AS "developerInfoDeveloperSince",
+            di."preferredOS" AS "developerInfoPreferredOS"
+        FROM 
+            developers de
         LEFT JOIN
-            developers_infos ON developers_infos."id" = developers."developerInfoId"
+            developers_infos di ON de."developerInfoId" = di."id"
         ;
     `;
     const queryConfig: QueryConfig = {
@@ -83,20 +88,26 @@ const viewDev = async (req: Request, resp: Response): Promise<Response> =>{
     const queryString = 
     `
         SELECT
-            *
-        FROM
-            developers
+            de."id" AS "developerId",
+            de."name" AS "developerName",
+            de."email" AS "developerEmail",
+            de."developerInfoId",
+            di."devSince" AS "developerInfoDeveloperSince",
+            di."preferredOS" AS "developerInfoPreferredOS"
+        FROM 
+            developers de
         LEFT JOIN
-            developers_infos ON developers_infos."id" = developers."developerInfoId"
+            developers_infos di ON de."developerInfoId" = di."id"
         WHERE
-            developers."id" = $1
+            de.id = $1
         ;
     `
 
-    const queryConfig: QueryConfig = {
+    const queryConfig = {
         text: queryString,
         values: [devId]
     };
+
     const queryResult = await client.query(queryConfig);
     return resp.status(200.).json(queryResult.rows[0])
 };
@@ -162,7 +173,7 @@ const deleteDev = async (req: Request, resp: Response): Promise<Response> =>{
     const queryString: string = 
     `
         DELETE FROM
-            developers_infos
+            developers
         WHERE
             "id" = $1
         ;

@@ -7,6 +7,47 @@ import {
 } from "express";
 import { ProjectResult } from "../interfaces";
 
+const validateProjectPatch = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
+    const validatedKeys = [
+        "name",
+        "description",
+        "estimatedTime",
+        "repository",
+        "startDate",
+    ];
+    const actualReq = req.body;
+    let validate = Object.keys(actualReq).some(key => validatedKeys.includes(key));
+    if(!validate){
+        return resp.status(400).json({
+            message: "Ate least one key must be send.",
+            keys: [
+                "name",
+                "description",
+                "estimatedTime",
+                "repository",
+                "startDate"
+            ]
+        })
+    }
+    return next();
+}
+
+const validateProjectReq = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
+    if  ( 
+            !req.body.name 
+            && !req.body.description 
+            && !req.body.estimatedTime 
+            && !req.body.repository 
+            && !req.body.startDate 
+            && !req.body.developerInfoId
+        ){ 
+        return resp.status(400).json({
+            message: "Missing required keys: description,estimatedTime,repository,startDate."
+        })
+    };
+    return next();
+}
+
 const projectFilter = async (req: Request, resp: Response, next: NextFunction): Promise<Response | void> =>{
     const validatedKeys =  [ 
         "name", 
@@ -44,20 +85,19 @@ const ensureProjectDevExists = async (req: Request, resp: Response, next: NextFu
     const queryString: string = 
     `
         SELECT
-            "id"
+            id
         FROM
             developers
         WHERE
-            "id" = $1
+            id = $1
         ;
     `;
-    
     const queryConfig: QueryConfig = {
         text: queryString,
         values: [projectDevId]
     };
     const queryResult: ProjectResult = await client.query(queryConfig);
-    if(queryResult.rowCount !== 1){
+    if(!queryResult.rowCount){
         return resp.status(404).json({
             message: "Dev not found"
         })
@@ -82,7 +122,7 @@ const ensureProjectExists = async (req: Request, resp: Response, next: NextFunct
         values: [projectId]
     };
     const queryResult: ProjectResult = await client.query(queryConfig);
-    if(queryResult.rowCount !== 1){
+    if(!queryResult.rowCount){
         return resp.status(404).json({
             message: "Project not found"
         })
@@ -93,5 +133,7 @@ const ensureProjectExists = async (req: Request, resp: Response, next: NextFunct
 export {
     projectFilter,
     ensureProjectDevExists,
-    ensureProjectExists
+    ensureProjectExists,
+    validateProjectReq,
+    validateProjectPatch
 }

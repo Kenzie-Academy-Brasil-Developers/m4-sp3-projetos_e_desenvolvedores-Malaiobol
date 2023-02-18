@@ -30,13 +30,23 @@ const viewProject = async (req: Request, resp: Response): Promise<Response> =>{
     const queryString = 
     `
         SELECT
-            *
+            pr."id" AS "projectID",
+            pr."name" AS "projectName",
+            pr."description" AS "projectDescription",
+            pr."estimatedTime" AS "projectEstimatedTime",
+            pr."repository" AS "projectRepository",
+            pr."startDate" AS "projectStartDate",
+            pr."endDate" AS "projectEndDate",
+            te."id" AS "technologyId",
+            te."name" AS "technologyName"
         FROM
             projects pr
         LEFT JOIN
             technologies_projects tp ON tp."projectId" = pr."id"
+        LEFT JOIN
+            technologies te ON tp."technologyId" = te."id"
         WHERE
-            pr."id" = $1
+            pr.id = $1
         ;
     `;
     const queryConfig: QueryConfig = {
@@ -50,13 +60,22 @@ const viewProject = async (req: Request, resp: Response): Promise<Response> =>{
 const viewAllProjects = async (req: Request, resp: Response): Promise<Response> =>{   
     const queryString = 
     `
-        SELECT
-            *
-        FROM
-            projects pr
-        LEFT JOIN
-            technologies_projects tp ON tp."projectId" = pr."id"
-        ;
+    SELECT
+        pr."id" AS "projectID",
+        pr."name" AS "projectName",
+        pr."description" AS "projectDescription",
+        pr."estimatedTime" AS "projectEstimatedTime",
+        pr."repository" AS "projectRepository",
+        pr."startDate" AS "projectStartDate",
+        pr."endDate" AS "projectEndDate",
+        te."id" AS "technologyId",
+        te."name" AS "technologyName"
+    FROM
+        projects pr
+    LEFT JOIN
+        technologies_projects tp ON tp."projectId" = pr."id"
+    LEFT JOIN
+        technologies te ON tp."technologyId" = te."id"
     `;
     const queryConfig: QueryConfig = {
         text: queryString

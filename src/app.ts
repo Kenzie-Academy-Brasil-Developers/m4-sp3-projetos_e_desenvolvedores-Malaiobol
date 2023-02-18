@@ -1,9 +1,11 @@
 import express, { Application } from "express";
 import { startDatabase } from "./database";
 import { 
+    validateProjectReq,
     projectFilter,
     ensureProjectDevExists,
     ensureProjectExists,
+    ensureDevInfoIdNotExists,
 
     validateDevReq,
     validateEmailReq,
@@ -12,7 +14,9 @@ import {
     patchDevFilter,
     patchDevInfoFilter,
 
-    assignTechFilter
+    assignTechFilter,
+    ensureTechExists,
+    validateProjectPatch
 } from "./middlewares";
 
 import{
@@ -37,21 +41,21 @@ const app: Application = express();
 app.use(express.json());
 
 app.post("/developers", validateDevReq, validateEmailReq, createDev);
-app.post("/developers/:id/infos", ensureDevExists, validateDevInfoDevReq, createDevInfo);
+app.post("/developers/:id/infos", ensureDevExists, ensureDevInfoIdNotExists, validateDevInfoDevReq, createDevInfo);
 app.get("/developers", viewAllDevs);
 app.get("/developers/:id", ensureDevExists, viewDev);
 app.patch("/developers/:id", ensureDevExists, patchDevFilter, validateEmailReq, updateDev);
-app.patch("/developers/:id/infos", ensureDevExists, patchDevInfoFilter, updateDevInfo);
+app.patch("/developers/:id/infos", ensureDevExists, ensureDevInfoIdNotExists, patchDevInfoFilter,  updateDevInfo);
 app.delete("/developers/:id", ensureDevExists, deleteDev);
 
-app.post("/projects", ensureProjectDevExists, projectFilter, createProject);
+app.post("/projects", ensureProjectDevExists, validateProjectReq, projectFilter, createProject);
 app.get("/projects", viewAllProjects); 
 app.get("/projects/:id", ensureProjectExists, viewProject);
-app.patch("/projects/:id", ensureProjectExists, ensureProjectDevExists, projectFilter, updateProject);
+app.patch("/projects/:id", ensureProjectExists, projectFilter, validateProjectPatch, updateProject);
 app.delete("/projects/:id", ensureProjectExists, deleteProject);
 
 app.post("/projects/:id/technologies",  ensureDevExists, assignTechFilter, assignTech);
-app.delete("/projects/:id/technologies/:name", ensureProjectExists, deleteTech);
+app.delete("/projects/:id/technologies/:name", ensureProjectExists, ensureTechExists, deleteTech);
 
 const PORT: number = 3000;
 const runningMsg: string = `Server is running on ${PORT}!`;
